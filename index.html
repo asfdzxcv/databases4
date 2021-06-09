@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>数据库实验四, 商品添加</title>
+	<link rel="stylesheet" href="css/base.css" />
+	<link rel="stylesheet" href="css/layout.css"/>
+</head>
+<body>
+	<div id="wrapper">
+		<header id="header">
+			<div id="loginBar">
+				<div class="w960 tr">
+					<a href="#">登录</a> <span class="sp">|</span> <a href="#">注册</a>
+				</div>
+			</div>
+			<div id="headBox">
+				<div class="w960 oh">
+
+					<nav id="navs" class="fr">
+						<a href="#">首页</a>
+						<a href="#">查看商品</a>
+						<a class="active" href="#">管理中心</a>
+					</nav>
+				</div>
+			</div>
+		</header><!-- // header end -->
+		<div class="container w960 mt20">
+			<div id="processor" >
+				<ol class="processorBox oh">
+					<li class="current">
+						<div class="step_inner fl">
+							<span class="icon_step">1</span>
+							<h4>填写进货信息</h4>
+						</div>
+					</li>
+					<li>
+						<div class="step_inner">
+							<span class="icon_step">2</span>
+							<h4>填写商品信息</h4>
+						</div>
+					</li>
+					<li>
+						<div class="step_inner fr">
+							<span class="icon_step">3</span>
+							<h4>添加完成</h4>
+						</div>
+					</li>
+				</ol>
+				<div class="step_line"></div>
+			</div>
+			<div class="content">
+				<div id="step1" class="step hide">
+					<form action="" method="post" id="step1_frm">
+						<div class="frm_control_group">
+							<label class="frm_label">商品编码</label>
+							<div class="frm_controls">
+								<input type="text" name="" class="frm_input goodsID" maxlength="32"  id="productID"/>
+								<label id='goodsTips'></label>
+							</div>
+						</div>
+						<div class="frm_control_group">
+							<label class="frm_label">进货数量</label>
+							<div class="frm_controls">
+								<input type="number" name="" class="frm_input num"/>
+
+							</div>
+						</div>
+						<div class="frm_control_group">
+							<label class="frm_label">进货单价</label>
+							<div class="frm_controls">
+								<input type="number" name="" class="frm_input price"/>
+							</div>
+						</div>
+						<div class="frm_control_group">
+							<label class="frm_label">供应商</label>
+							<div class="frm_controls">
+								<select class="frm_input provider" id="selectProd">
+
+								</select>
+							</div>
+						</div>
+						<div class="toolBar">
+							<a id="nextBtn1" class="btn btn_primary" href="javascript:;">下一步</a>
+						</div>
+					</form>
+				</div><!-- // step1 end -->
+				<div id="step2" class="step hide">
+					<form action="" method="post" id="step2_frm">
+						<div class="frm_control_group">
+							<label class="frm_label">商品名称</label>
+							<div class="frm_controls">
+								<input type="text" name="" class="frm_input goodsName" maxlength="32"/>
+							</div>
+						</div>
+						<div class="frm_control_group">
+							<label class="frm_label">售货单价</label>
+							<div class="frm_controls">
+								<input type="number" name="" class="frm_input goodsPrice"/>
+
+							</div>
+						</div>
+						<div class="frm_control_group">
+							<label class="frm_label">商品规格</label>
+							<div class="frm_controls">
+								<input type="text" name="" class="frm_input standard"/>
+							</div>
+						</div>
+						<div class="frm_control_group">
+							<label class="frm_label">商品描述</label>
+							<div class="frm_controls">
+								<input type="text" name="" class="frm_input describe"/>
+							</div>
+						</div>
+						<div class="toolBar">
+							<a id="nextBtn2" class="btn btn_primary" href="javascript:;">下一步</a>
+						</div>
+					</form>
+				</div><!-- // step2 end -->
+				<div id="step3" class="step hide">
+					<form action="" method="post" id="step3_frm">
+						<div class="frm_label">请确认信息</div>
+						<br>
+						<br>
+							<p id='check_goods_name'></p>
+							<p id='check_goods_num'></p>
+							<p id='check_goods_id'></p>
+							<p id='check_stock_num'></p>
+							<p id='check_provider'></p>
+							<p id='check_price'></p>
+							<p id='check_stock_price'></p>
+							<p id='check_regu'></p>
+							<p id='check_desc'></p>
+						<div class="toolBar">
+							<a id="finishedBtn" class="btn btn_primary" href="javascript:;">完成</a>
+						</div>
+					</form>
+				</div><!-- // step3 end -->
+			</div>
+		</div><!-- // container end -->
+		<footer id="footer" class="w960 oh">
+			<span class="fl">适用浏览器：IE8、360、FireFox、Chrome、Safari、Opera、傲游、搜狗、世界之窗.</span>
+			<nav class="footNavs tr fr">
+
+			</nav>
+		</footer><!-- // footer end -->
+	</div><!-- // wrapper end -->
+	
+	<script src="js/jquery.min.js"></script>
+	<script> 
+var currentPage=0;
+		//显示提示框，目前三个参数(txt：要显示的文本；time：自动关闭的时间（不设置的话默认1500毫秒）；status：默认0为错误提示，1为正确提示；)
+		function showTips(txt,time,status)
+		{
+			var htmlCon = '';
+			if(txt != ''){
+				if(status != 0 && status != undefined){
+					htmlCon = '<div class="tipsBox" style="width:220px;padding:10px;background-color:#4AAF33;border-radius:4px;-webkit-border-radius: 4px;-moz-border-radius: 4px;color:#fff;box-shadow:0 0 3px #ddd inset;-webkit-box-shadow: 0 0 3px #ddd inset;text-align:center;position:fixed;top:25%;left:50%;z-index:999999;margin-left:-120px;"><img src="images/ok.png" style="vertical-align: middle;margin-right:5px;" alt="OK，"/>'+txt+'</div>';
+				}else{
+					htmlCon = '<div class="tipsBox" style="width:220px;padding:10px;background-color:#D84C31;border-radius:4px;-webkit-border-radius: 4px;-moz-border-radius: 4px;color:#fff;box-shadow:0 0 3px #ddd inset;-webkit-box-shadow: 0 0 3px #ddd inset;text-align:center;position:fixed;top:25%;left:50%;z-index:999999;margin-left:-120px;"><img src="images/err.png" style="vertical-align: middle;margin-right:5px;" alt="Error，"/>'+txt+'</div>';
+				}
+				$('body').prepend(htmlCon);
+				if(time == '' || time == undefined){
+					time = 1500; 
+				}
+				setTimeout(function(){ $('.tipsBox').remove(); },time);
+			}
+		}
+		
+		$(function(){
+			var stockData;
+			var goodsData;
+			var goodsID;
+			var num;
+			var goodsIDStatu;
+			$('#productID').on('input',function(){
+				console.log("input")
+				goodsID = $('.goodsID').val();
+				
+				var settings = {
+  "url": "https://yuyang.love:8080/user/check?id="+goodsID,
+  "method": "GET",
+  "timeout": 0,
+};
+
+$.ajax(settings).done(function (response) {
+	if(response.result==1){goodsIDStatu=1;$('#goodsTips').text("")}
+	else {
+		goodsIDStatu=0;
+	$('#goodsTips').text("编号已占用")
+	}
+
+});
+
+			})
+			//AJAX提交以及验证表单
+			$('#nextBtn1').click(function(){
+				goodsID = $('.goodsID').val();
+				num = $('.num').val();
+				var price = $('.price').val();
+				var provider = $('.provider').val();
+				if(goodsID == ''){
+					showTips('请填写商品编号');
+				}else if(goodsIDStatu==0){
+
+				showTips('商品编号已占用')
+				}else if(num == ''){
+					showTips('请填写进货数量');
+				}else if(price == ''){
+					showTips('请填写进货单价');
+				}else if(provider == ''){
+					showTips('请选择供应商');
+				}else{
+					var nowDate = new Date();
+ var year = nowDate.getFullYear();
+ var month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1)
+  : nowDate.getMonth() + 1;
+ var day = nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate
+  .getDate();
+ var time = year + "-" + month + "-" + day;					
+					//此处省略 ajax 提交表单 代码...
+					stockData={
+    "productID":goodsID,
+    "stockDate":time,
+    "stockQuantity":num,
+    "stockPrice":price,
+    "providerID":provider
+}
+
+
+				$('.processorBox li').removeClass('current').eq(++currentPage).addClass('current');
+				$('.step').fadeOut(300).eq(currentPage).fadeIn(500);
+}
+console.log(stockData)
+			});
+			
+			$('#nextBtn2').click(function(){
+				var goodsName = $('.goodsName').val();
+				var goodsPrice = $('.goodsPrice').val();
+				var standard = $('.standard').val();
+				var describe = $('.describe').val();
+				if(goodsName == ''){
+					showTips('请填写商品名称');
+				}else if(goodsPrice == ''){
+					showTips('请填写售货单价');
+				}else if(standard == ''){
+					showTips('请填写商品规格');
+				}else if(describe == ''){
+					showTips('请填写商品描述');
+				}else{
+					
+
+					goodsData={
+    "productID":goodsID,
+    "productName":goodsName,
+    "salePrice":goodsPrice,
+    "standard":standard,
+    "description":describe,
+    "inventroy":num
+}
+$('#check_goods_name').text("商品名称"+goodsData.productName);
+				$('#check_goods_num').text("商品数量："+stockData.stockQuantity)
+				$('#check_goods_id').text("商品ID："+goodsData.productID)
+				$('#check_provider').text("供应商："+stockData.providerID)
+				$('#check_price').text("出售价格："+goodsData.salePrice)
+				$('#check_stock_price').text("进货价格："+stockData.stockPrice)
+				$('#check_regu').text("商品规格："+goodsData.standard)
+				$('#check_desc').text("商品描述："+goodsData.description)
+$('.processorBox li').removeClass('current').eq(++currentPage).addClass('current');
+				$('.step').fadeOut(300).eq(currentPage).fadeIn(500);
+				
+
+
+				}
+				console.log(goodsData);
+			});
+			$('#finishedBtn').click(function(){
+				testData={
+    "productID":4,
+    "productName":"衣服",
+    "salePrice":100,
+    "standard":"20",
+    "description":"安踏",
+    "inventroy":23
+},
+$.ajax({
+        url : "https://yuyang.love:8080/user/stock",
+        type : 'POST',
+        data : JSON.stringify(stockData),
+		dataType:"text",
+        contentType : 'application/json',
+        success : function(data, status, xhr) {
+			console.log(data)
+        },
+	
+        Error : function(xhr, error, exception) {
+            // handle the error.  
+            alert(exception.toString());
+        }
+    });
+				$.ajax({
+        url : "https://yuyang.love:8080/user/goods",
+        type : 'POST',
+        data : JSON.stringify(goodsData),
+		dataType:"text",
+        contentType : 'application/json',
+        success : function(data, status, xhr) {
+			showTips("添加成功");
+			console.log(data)
+        },
+	
+        Error : function(xhr, error, exception) {
+            // handle the error.  
+            alert(exception.toString());
+        }
+    });
+});
+
+
+			//切换步骤（目前只用来演示）
+			$('.processorBox li').click(function(){
+				var i = $(this).index();
+				if(i>currentPage)return;
+				$('.processorBox li').removeClass('current').eq(i).addClass('current');
+				$('.step').fadeOut(300).eq(i).fadeIn(500);
+				var i = $(this).index();
+				console.log(i)
+			});
+		});
+		var settings = {
+  "url": "https://yuyang.love:8080/user/provider",
+  "method": "GET",
+  "timeout": 0,
+};
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+  for(i=0;i<response.result.length;i++){
+  $("#selectProd").append("<option value='"+response.result[i].providerID+"'>"+response.result[i].providerName+"</option>");
+  }
+});
+	</script>
+</body>
+</html>
